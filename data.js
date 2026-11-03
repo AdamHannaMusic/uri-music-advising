@@ -161,6 +161,120 @@ const CALENDAR = [
   { date: "2026-10-01", term: "Graduation", kind: "grad", label: "Intent to Graduate deadline for May graduates (verify current form)" }
 ];
 
+/* ---------- The interactive degree planner (companion tool) ---------- */
+const PLANNER_URL = "https://adamhannamusic.github.io/uri-music-planner/";
+
+/* ---------- The 11 degree paths ----------
+   Advising orientation grounded in the Advising Procedures & Training Manual
+   (section 8) and the 2026-2027 worksheets. Use the student's controlling
+   catalog and approved curriculum sheet for an actual audit.
+   worksheet = filename under WORKSHEET_DIR (or null if not in the pack)
+   catalog   = official URI program page */
+const DEGREE_PATHS = [
+  {
+    name: "B.M. Composition", family: "Bachelor of Music", advisor: "Advisor 1",
+    credits: "~120 credits",
+    worksheet: "Music Composition BOM 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/bm/",
+    structure: "Sustained composition study, core musicianship and history, applied and ensemble work, keyboard expectations, and a culminating composition recital or portfolio.",
+    watch: ["Composition sequence and recital/portfolio timeline", "Applied and ensemble semesters", "Piano / keyboard proficiency", "Annual (once-a-year) course offerings"]
+  },
+  {
+    name: "B.M. Orchestral Instrument", family: "Bachelor of Music", advisor: "Advisor 1",
+    credits: "~120–124 credits",
+    worksheet: "Music Orchestral Performance BOM 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/bm/performance/",
+    structure: "Professional performance curriculum within the B.M. Performance family; published total varies by track.",
+    watch: ["Applied level and juries", "Major and chamber ensemble; convocation", "Recital milestone", "Correct instrument and studio section at registration"]
+  },
+  {
+    name: "B.M. Jazz Performance", family: "Bachelor of Music", advisor: "Advisor 1",
+    credits: "~120 credits",
+    worksheet: "Music Jazz Performance BOM 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/bm/performance/",
+    structure: "Performance curriculum with jazz-specific theory and history, applied study, ensembles, and recital work.",
+    watch: ["Jazz sequence and ensemble placement", "Applied level and juries", "Recital", "Track-specific credit counts"]
+  },
+  {
+    name: "B.M. Vocal Performance", family: "Bachelor of Music", advisor: "Advisor 1",
+    credits: "~120 credits",
+    worksheet: "Music Voice Performance BOM 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/bm/performance/",
+    structure: "Performance curriculum with applied voice, ensembles, juries/recital, and track-specific language study.",
+    watch: ["Language sequence", "Applied level; ensemble and convocation", "Recital", "Diction / related track requirements"]
+  },
+  {
+    name: "B.M. Piano Performance", family: "Bachelor of Music", advisor: "Advisor 1",
+    credits: "~120 credits",
+    worksheet: "Music Piano Performance BOM 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/bm/performance/",
+    structure: "Performance curriculum with intensive applied piano, ensemble and chamber work, juries, and recital milestones.",
+    watch: ["Applied piano level", "Accompanying / chamber expectations", "Recital", "Correct variable-credit registration"]
+  },
+  {
+    name: "B.M. Classical Guitar", family: "Bachelor of Music", advisor: "Advisor 1",
+    credits: "~120 credits",
+    worksheet: "Music Classical Guitar BOM 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/bm/performance/",
+    structure: "Performance curriculum with applied classical guitar, ensemble and chamber work, juries, and recital milestones.",
+    watch: ["Applied level and juries", "Guitar ensemble / chamber placement", "Recital", "Correct studio section and variable-credit registration"]
+  },
+  {
+    name: "B.M. Music Therapy", family: "Bachelor of Music", advisor: "Advisor 2",
+    credits: "~139 credits (five-year program)",
+    worksheet: "Music Therapy BOM 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/bm/music-therapy/",
+    structure: "Five-year professional program with clinical preparation and internship leading toward certification / licensure pathways.",
+    watch: ["Clinical sequence and prerequisite gates", "Internship timing", "Heavy total-credit load", "External certification / licensure requirements"]
+  },
+  {
+    name: "B.M. Music Education", family: "Bachelor of Music", advisor: "Advisor 3",
+    credits: "~120 credits",
+    worksheet: "Music Education BOM 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/bm/music-education/",
+    structure: "Large Music and professional-education component, methods and field work, proficiency gates, recital work, and internship / student teaching.",
+    watch: ["Admission / progression rules", "Piano proficiency and other gates before internship", "Methods sequence", "Background / field requirements and licensure steps"]
+  },
+  {
+    name: "B.A. Music (Music Option)", family: "Bachelor of Arts", advisor: "Advisor 1",
+    credits: "~120 credits (Music component ~38 cr)",
+    worksheet: "Music-Music Option BA 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/ba-music/",
+    structure: "Flexible B.A. with a defined Music core plus the University B.A. requirements.",
+    watch: ["42 credits at the 300 level or above (B.A. upper-level rule)", "Music core; applied/ensemble/convocation semesters", "At least 30 non-Music credits", "Double-major integration"]
+  },
+  {
+    name: "B.A. Music History and Literature", family: "Bachelor of Arts", advisor: "Advisor 1",
+    credits: "~120 credits (Music component ~45 cr + language)",
+    worksheet: "Music- History and Lit BA 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/ba-music/",
+    structure: "B.A. with a music history/literature focus, research and writing, and language study.",
+    watch: ["History sequence; research and writing", "Language credits and proficiency", "42 upper-level credits", "Applied/ensemble/convocation semesters"]
+  },
+  {
+    name: "B.A. Jazz Studies", family: "Bachelor of Arts", advisor: "Advisor 1",
+    credits: "~120 credits (Music component ~41 cr)",
+    worksheet: "Music-Jazz Studies BA 2026.pdf",
+    catalog: "https://web.uri.edu/music/academics/ba-music/",
+    structure: "B.A. with jazz theory/history, applied study, ensembles, and a recital milestone.",
+    watch: ["Jazz sequence; six published applied semesters", "Ensemble and convocation", "Junior recital", "42 upper-level credits; double-major integration"]
+  }
+];
+
+/* Music minors (Advisor 2) — not among the 11 degree paths but listed for reference. */
+const MUSIC_MINORS = {
+  advisor: "Advisor 2",
+  credits: "18–21 credits (varies by minor)",
+  catalog: "https://web.uri.edu/music/academics/",
+  list: ["Jazz Studies", "Music", "Music Performance", "Individual Music Study", "Voice Performance for Theatre"],
+  notes: [
+    "Confirm the current minor curriculum and any audition / placement before promising a start term.",
+    "Use University minor rules for minimum credits, level, residency, GPA, overlap, and filing timing.",
+    "A minor may not display in the APR — keep a signed, current minor plan and check the transcript directly.",
+    "Declaring a minor does not guarantee a seat in required courses."
+  ]
+};
+
 /* ---------- Current 2026-2027 program worksheets (PDF) ----------
    These live in worksheets/2026-2027/ inside the app so they travel
    with the deployed site. Match the worksheet to the student's

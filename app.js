@@ -80,6 +80,7 @@ function viewHome() {
   const tiles = [
     ["#/rules", "📐", "The six rules", "The core discipline behind every safe advising decision."],
     ["#/module/m1", "🎓", "Start the training", `7 short modules with a quick check after each. You're ${pct}% through.`],
+    ["#/degrees", "🎼", "Degree paths", "All 11 programs, their rules and worksheets, plus the course planner."],
     ["#/calendar", "📅", "Academic calendar", "Registration, drop/add, and graduation deadlines for 2026–2027."],
     ["#/reference", "📋", "Quick reference", "Forms routing, portfolios, curriculum snapshot, approved courses."],
     ["#/templates", "✉️", "Email templates", "All 56 Gmail templates (T01–T56), searchable and copy-ready."],
@@ -409,6 +410,77 @@ function buildBanner() {
   banner.hidden = false;
 }
 
+function viewDegrees() {
+  const families = [...new Set(DEGREE_PATHS.map(d => d.family))];
+
+  const cardHtml = d => {
+    const wsHref = d.worksheet ? encodeURI(WORKSHEET_DIR + d.worksheet) : null;
+    return `
+    <div class="degree-card" data-name="${esc(d.name)}">
+      <div class="degree-top">
+        <span class="degree-name">${esc(d.name)}</span>
+        <span class="degree-meta">
+          <span class="meta-chip advisor">${esc(d.advisor)}</span>
+          <span class="meta-chip">${esc(d.credits)}</span>
+        </span>
+        <span class="degree-toggle">+</span>
+      </div>
+      <div class="degree-body">
+        <h4>Published structure</h4>
+        <p>${esc(d.structure)}</p>
+        <h4>Advising watchpoints</h4>
+        <ul class="clean">${d.watch.map(w => `<li>${esc(w)}</li>`).join("")}</ul>
+        <div class="degree-links">
+          ${wsHref ? `<a class="primary" href="${wsHref}" target="_blank" rel="noopener">2026–2027 worksheet (PDF) ↗</a>` : ""}
+          <a href="${d.catalog}" target="_blank" rel="noopener">Official URI requirements ↗</a>
+          <a href="${PLANNER_URL}" target="_blank" rel="noopener">Build a plan in Maestro Rhody ↗</a>
+        </div>
+      </div>
+    </div>`;
+  };
+
+  return `
+    <p class="eyebrow">URI Music degrees</p>
+    <h1>Degree paths</h1>
+    <p class="lead">Music degrees are complex, and the requirements differ sharply across the 11 undergraduate paths.
+    Use this as orientation — then open each program's current worksheet and the official URI requirements for the
+    real audit. Always match the student's <strong>controlling requirement term</strong>, not automatically the newest sheet.</p>
+
+    <div class="planner-cta">
+      <span class="cta-icon" aria-hidden="true">🎼</span>
+      <div class="cta-body">
+        <h3>Maestro Rhody — the interactive course planner</h3>
+        <p>Pick a degree/option and it pre-fills a suggested term-by-term plan you can drag, swap, and save. Handles
+        double majors and course offerings. The fastest way to turn these requirements into an actual schedule.</p>
+      </div>
+      <a class="btn" href="${PLANNER_URL}" target="_blank" rel="noopener">Open the planner ↗</a>
+    </div>
+
+    ${families.map(fam => {
+      const group = DEGREE_PATHS.filter(d => d.family === fam);
+      return `
+        <div class="family-head"><h2>${esc(fam)}</h2><span class="count">${group.length} program${group.length === 1 ? "" : "s"}</span></div>
+        ${group.map(cardHtml).join("")}`;
+    }).join("")}
+
+    <div class="family-head"><h2>Music minors</h2><span class="count">Advised by ${esc(MUSIC_MINORS.advisor)}</span></div>
+    <div class="card">
+      <p>Not among the 11 degree paths, but advised within the department. Published minors (${esc(MUSIC_MINORS.credits)}):</p>
+      <div class="pill-row">${MUSIC_MINORS.list.map(m => `<span class="pill">${esc(m)}</span>`).join("")}</div>
+      <h4 style="margin-top:14px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">Rules to remember</h4>
+      <ul class="clean">${MUSIC_MINORS.notes.map(n => `<li>${esc(n)}</li>`).join("")}</ul>
+      <div class="degree-links">
+        <a href="${MUSIC_MINORS.catalog}" target="_blank" rel="noopener">URI Music academics ↗</a>
+      </div>
+    </div>`;
+}
+
+function wireDegrees() {
+  document.querySelectorAll(".degree-top").forEach(top => {
+    top.addEventListener("click", () => top.parentElement.classList.toggle("open"));
+  });
+}
+
 function viewCalendar() {
   const t = today();
   const sorted = [...CALENDAR].sort((a, b) => parseISO(a.date) - parseISO(b.date));
@@ -501,6 +573,7 @@ function render() {
   } else {
     switch (parts[0]) {
       case "rules": html = viewRules(); break;
+      case "degrees": html = viewDegrees(); after = wireDegrees; break;
       case "calendar": html = viewCalendar(); break;
       case "reference": html = viewReference(); break;
       case "templates": html = viewTemplates(); after = () => {
