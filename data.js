@@ -112,6 +112,21 @@ const CALENDAR_SOURCE = "https://web.uri.edu/academic-calendars/2026-27";
 const CALENDAR_UPDATED = "Reflects the official 2026-27 calendar as of Nov 2026.";
 
 const CALENDAR = [
+  // Fall 2026 registration & deadlines (from URI fall important-dates calendar)
+  { date: "2026-09-15", term: "Fall 2026", kind: "deadline", label: "Last day to add classes in e-Campus" },
+  { date: "2026-09-16", end: "2026-09-22", term: "Fall 2026", kind: "deadline", label: "Permission Number Add Period (permission number required to add)" },
+  { date: "2026-09-22", term: "Fall 2026", kind: "deadline", label: "Last day to declare Pass/Fail option" },
+  { date: "2026-09-29", term: "Fall 2026", kind: "deadline", label: "Last day to drop classes without receiving a \"W\"" },
+  { date: "2026-10-01", term: "Fall 2026", kind: "grad", label: "Intent to Graduate forms due for Spring 2027 graduates" },
+  { date: "2026-10-06", term: "Fall 2026", kind: "reg", label: "Registration dates/times posted in e-Campus by 4:30 PM" },
+  { date: "2026-10-19", term: "Fall 2026", kind: "reg", label: "Early registration — Combat Veterans and DAI" },
+  { date: "2026-10-20", term: "Fall 2026", kind: "reg", label: "Early registration — Honors, NCAA, Club Sports" },
+  { date: "2026-10-21", term: "Fall 2026", kind: "deadline", label: "Last day to drop classes in e-Campus (late drop form required after this date)" },
+  { date: "2026-10-21", term: "Fall 2026", kind: "reg", label: "Registration — Seniors (90+ credits)" },
+  { date: "2026-10-26", term: "Fall 2026", kind: "reg", label: "Registration — Juniors (60–89 credits)" },
+  { date: "2026-11-02", term: "Fall 2026", kind: "reg", label: "Registration — Sophomores (30–59 credits)" },
+  { date: "2026-11-09", term: "Fall 2026", kind: "reg", label: "Registration — Freshmen (0–29 credits)" },
+  { date: "2026-11-30", term: "Fall 2026", kind: "reg", label: "Open enrollment" },
   // Fall 2026 (winding down)
   { date: "2026-11-11", term: "Fall 2026", kind: "holiday", label: "Veteran's Day — classes do not meet, offices closed" },
   { date: "2026-11-16", term: "Fall 2026", kind: "term", label: "Veteran's Day make-up day — Wednesday classes meet" },
@@ -144,17 +159,6 @@ const CALENDAR = [
   { date: "2027-02-01", term: "Graduation", kind: "grad", label: "Intent to Graduate deadline for August graduates (verify current form)" },
   { date: "2027-03-01", term: "Graduation", kind: "grad", label: "Intent to Graduate deadline for December graduates (verify current form)" },
   { date: "2026-10-01", term: "Graduation", kind: "grad", label: "Intent to Graduate deadline for May graduates (verify current form)" }
-];
-
-/* Staggered class-standing registration windows for spring are set by
-   Enrollment Services close to the term and are NOT yet published on the
-   official 2026-27 calendar page. Shown as TBA so no one invents a date. */
-const REG_WINDOWS_NOTE = [
-  "Early registration (Combat Veterans / DAI, then Honors / NCAA / Club Sports)",
-  "Seniors (90+ credits) begin",
-  "Juniors (60–89 credits) begin",
-  "Sophomores (30–59 credits) begin",
-  "Freshmen (0–29 credits) begin"
 ];
 
 /* ---------- Current 2026-2027 program worksheets (PDF) ----------

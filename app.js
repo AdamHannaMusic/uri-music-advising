@@ -449,17 +449,12 @@ function viewCalendar() {
         ${groups[term].map(rowHtml).join("")}
       </div>`).join("")}
 
-    <h2>Staggered registration windows (by class standing)</h2>
     <div class="card">
-      <p>Enrollment appointments open in stages by earned credits. For 2026–2027 these exact dates are set by
-      Enrollment Services close to the term and are <strong>not yet published</strong> on the official calendar page,
-      so confirm each student's window in <strong>e-Campus</strong> rather than quoting a date.</p>
-      <p>The usual order, earliest first:</p>
-      <ul class="clean">
-        ${REG_WINDOWS_NOTE.map(w => `<li>${esc(w)} <span class="cal-tag reg" style="margin-left:6px;">TBA</span></li>`).join("")}
-      </ul>
-      <p style="margin-bottom:0;color:var(--muted);font-size:13.5px;">Reminder: advising holds are placed on students below a credit threshold
-      and must be cleared through the required advising contact before their window opens.</p>
+      <p style="margin-bottom:0;"><strong>How staggered registration works.</strong> Enrollment appointments open in stages by earned
+      credits — early-registration groups first, then seniors, juniors, sophomores, and freshmen (see the Fall 2026 dates above).
+      Spring 2027 windows are set by Enrollment Services closer to that term; confirm each student's exact appointment in
+      <strong>e-Campus</strong> rather than quoting a date. Remember advising holds are placed on students below a credit
+      threshold and must be cleared through the required advising contact before their window opens.</p>
     </div>`;
 }
 
