@@ -80,6 +80,7 @@ function viewHome() {
   const tiles = [
     ["#/rules", "📐", "The six rules", "The core discipline behind every safe advising decision."],
     ["#/module/m1", "🎓", "Start the training", `7 short modules with a quick check after each. You're ${pct}% through.`],
+    ["#/calendar", "📅", "Academic calendar", "Registration, drop/add, and graduation deadlines for 2026–2027."],
     ["#/reference", "📋", "Quick reference", "Forms routing, portfolios, curriculum snapshot, approved courses."],
     ["#/templates", "✉️", "Email templates", "All 56 Gmail templates (T01–T56), searchable and copy-ready."],
     ["#/files", "📁", "Files & forms", "Where the worksheets, forms, and manuals live in the Starter Pack."]
@@ -345,6 +346,123 @@ function fallbackCopy(text, msg) {
   document.body.removeChild(ta);
 }
 
+/* ---------- calendar helpers ---------- */
+function today() {
+  const d = new Date();
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+function parseISO(s) {
+  const [y, m, d] = s.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+function fmtDate(iso) {
+  const d = parseISO(iso);
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+function fmtRange(item) {
+  if (!item.end) return fmtDate(item.date);
+  const a = parseISO(item.date), b = parseISO(item.end);
+  const opts = { month: "short", day: "numeric" };
+  const sameMonth = a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear();
+  const start = a.toLocaleDateString("en-US", opts);
+  const end = (sameMonth ? b.getDate() : b.toLocaleDateString("en-US", opts)) + ", " + b.getFullYear();
+  return start + "–" + end;
+}
+// effective end date (for past/upcoming comparison)
+function effEnd(item) { return parseISO(item.end || item.date); }
+
+// Upcoming items: those whose end date is today or later, sorted by start.
+function upcomingItems() {
+  const t = today();
+  return CALENDAR
+    .filter(i => effEnd(i) >= t)
+    .sort((a, b) => parseISO(a.date) - parseISO(b.date));
+}
+
+const KIND_LABEL = { reg: "Registration", deadline: "Deadline", grad: "Graduation", holiday: "Closure", term: "Term" };
+
+/* ---------- banner ---------- */
+const BANNER_KEY = "uri-music-advising-banner-dismissed-v1";
+
+function buildBanner() {
+  const banner = document.getElementById("banner");
+  const upcoming = upcomingItems();
+  // dates within the next 45 days get called out
+  const t = today();
+  const soon = upcoming.filter(i => {
+    const days = (parseISO(i.date) - t) / 86400000;
+    return days <= 45;
+  }).slice(0, 3);
+
+  const list = (soon.length ? soon : upcoming.slice(0, 2));
+  if (!list.length) { banner.hidden = true; return; }
+
+  // dismissal is keyed to the first upcoming item's date, so a NEW
+  // upcoming date re-shows the banner even after a prior dismissal.
+  const sig = list.map(i => i.date + i.label).join("|");
+  if (localStorage.getItem(BANNER_KEY) === sig) { banner.hidden = true; return; }
+  banner._sig = sig;
+
+  const parts = list.map(i => `<strong>${esc(fmtRange(i))}</strong> — ${esc(i.label)}`);
+  document.getElementById("bannerText").innerHTML =
+    `Dear advisors: keep these upcoming dates in mind — ` + parts.join(" · ") + `.`;
+  banner.hidden = false;
+}
+
+function viewCalendar() {
+  const t = today();
+  const sorted = [...CALENDAR].sort((a, b) => parseISO(a.date) - parseISO(b.date));
+  const upcoming = upcomingItems();
+  const nextDate = upcoming.length ? upcoming[0].date : null;
+
+  // group by term, preserving chronological order of terms as they appear
+  const order = [];
+  const groups = {};
+  sorted.forEach(i => {
+    if (!groups[i.term]) { groups[i.term] = []; order.push(i.term); }
+    groups[i.term].push(i);
+  });
+
+  const rowHtml = i => {
+    const past = effEnd(i) < t;
+    const isNext = i.date === nextDate && !past;
+    return `<div class="cal-item ${past ? "past" : ""} ${isNext ? "next" : ""}">
+      <span class="cal-date">${esc(fmtRange(i))}</span>
+      <span class="cal-label">${esc(i.label)}${isNext ? '<span class="next-flag">NEXT UP</span>' : ""}</span>
+      <span class="cal-tag ${i.kind}">${esc(KIND_LABEL[i.kind] || i.kind)}</span>
+    </div>`;
+  };
+
+  return `
+    <p class="eyebrow">Academic calendar &amp; registration deadlines</p>
+    <h1>Academic calendar</h1>
+    <p class="lead">Key advising, registration, and graduation dates for 2026–2027. Dates are shaded out once they pass,
+    and the next upcoming item is flagged.</p>
+
+    <div class="callout warn"><strong>Always verify before advising a deadline.</strong> ${esc(CALENDAR_UPDATED)}
+    Dates change — confirm against the <a href="${CALENDAR_SOURCE}" target="_blank" rel="noopener">official URI Enrollment Services calendar</a>
+    and the current College forms. Enrollment Services posts exact deadlines each term.</div>
+
+    ${order.map(term => `
+      <h2>${esc(term)}</h2>
+      <div class="card cal-group" style="padding:6px 10px;">
+        ${groups[term].map(rowHtml).join("")}
+      </div>`).join("")}
+
+    <h2>Staggered registration windows (by class standing)</h2>
+    <div class="card">
+      <p>Enrollment appointments open in stages by earned credits. For 2026–2027 these exact dates are set by
+      Enrollment Services close to the term and are <strong>not yet published</strong> on the official calendar page,
+      so confirm each student's window in <strong>e-Campus</strong> rather than quoting a date.</p>
+      <p>The usual order, earliest first:</p>
+      <ul class="clean">
+        ${REG_WINDOWS_NOTE.map(w => `<li>${esc(w)} <span class="cal-tag reg" style="margin-left:6px;">TBA</span></li>`).join("")}
+      </ul>
+      <p style="margin-bottom:0;color:var(--muted);font-size:13.5px;">Reminder: advising holds are placed on students below a credit threshold
+      and must be cleared through the required advising contact before their window opens.</p>
+    </div>`;
+}
+
 function viewFiles() {
   return `
     <p class="eyebrow">Advisor Starter Pack</p>
@@ -388,6 +506,7 @@ function render() {
   } else {
     switch (parts[0]) {
       case "rules": html = viewRules(); break;
+      case "calendar": html = viewCalendar(); break;
       case "reference": html = viewReference(); break;
       case "templates": html = viewTemplates(); after = () => {
         $("#tmplSearch").addEventListener("input", renderTemplateList);
@@ -414,6 +533,16 @@ function render() {
 function boot() {
   buildModuleNav();
   updateProgressUI();
+  buildBanner();
+
+  const bannerClose = document.getElementById("bannerClose");
+  if (bannerClose) {
+    bannerClose.addEventListener("click", () => {
+      const banner = document.getElementById("banner");
+      if (banner._sig) localStorage.setItem(BANNER_KEY, banner._sig);
+      banner.hidden = true;
+    });
+  }
 
   window.addEventListener("hashchange", render);
   render();

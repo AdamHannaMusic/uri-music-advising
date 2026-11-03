@@ -101,6 +101,62 @@ const APPROVED_COURSES = {
   theory: ["MUS 318G", "MUS 324", "MUS 416", "MUS 417", "MUS 420", "MUS 424", "MUS 516", "MUS 517"]
 };
 
+/* ---------- Academic calendar 2026-2027 ----------
+   Source: URI Enrollment Services official 2026-27 academic calendar
+   (web.uri.edu/academic-calendars/2026-27). Dates change — always
+   confirm against the live calendar before advising a deadline.
+   date = ISO yyyy-mm-dd (first day for ranges); end = optional range end.
+   kind: 'reg' registration/advising, 'deadline' drop/add deadlines,
+         'grad' graduation, 'holiday' closures, 'term' term markers. */
+const CALENDAR_SOURCE = "https://web.uri.edu/academic-calendars/2026-27";
+const CALENDAR_UPDATED = "Reflects the official 2026-27 calendar as of Nov 2026.";
+
+const CALENDAR = [
+  // Fall 2026 (winding down)
+  { date: "2026-11-11", term: "Fall 2026", kind: "holiday", label: "Veteran's Day — classes do not meet, offices closed" },
+  { date: "2026-11-16", term: "Fall 2026", kind: "term", label: "Veteran's Day make-up day — Wednesday classes meet" },
+  { date: "2026-11-25", end: "2026-11-29", term: "Fall 2026", kind: "holiday", label: "Thanksgiving Recess — classes do not meet" },
+  { date: "2026-12-14", term: "Fall 2026", kind: "term", label: "Last day of classes (late add/drop & credit-change forms not accepted after this day)" },
+  { date: "2026-12-15", term: "Fall 2026", kind: "term", label: "Reading day" },
+  { date: "2026-12-16", end: "2026-12-22", term: "Fall 2026", kind: "term", label: "Final examinations (Dec 16–18, 21–22)" },
+  { date: "2026-12-28", term: "Fall 2026", kind: "grad", label: "Fall final grades due in e-Campus by 12:00 PM" },
+  { date: "2026-12-31", term: "Fall 2026", kind: "grad", label: "December degree conferral" },
+
+  // Winter J-Term 2027
+  { date: "2026-10-06", term: "J-Term 2027", kind: "reg", label: "Winter J-Term pre-registration begins" },
+  { date: "2027-01-04", term: "J-Term 2027", kind: "term", label: "J-Term classes begin (also last day to add / drop with 100% refund)" },
+  { date: "2027-01-22", term: "J-Term 2027", kind: "term", label: "J-Term last day of classes" },
+
+  // Spring 2027
+  { date: "2027-01-25", term: "Spring 2027", kind: "reg", label: "Advising Day (last day to drop with 100% refund)" },
+  { date: "2027-01-26", term: "Spring 2027", kind: "term", label: "Spring classes begin" },
+  { date: "2027-01-26", end: "2027-02-01", term: "Spring 2027", kind: "deadline", label: "e-Campus Open Add Period" },
+  { date: "2027-02-02", end: "2027-02-08", term: "Spring 2027", kind: "deadline", label: "e-Campus Permission Number Late Add Period (permission number required)" },
+  { date: "2027-02-08", term: "Spring 2027", kind: "deadline", label: "Last day to add Pass/Fail option" },
+  { date: "2027-02-17", term: "Spring 2027", kind: "deadline", label: "Courses dropped on/after this date receive a \"W\" on the transcript" },
+  { date: "2027-03-09", term: "Spring 2027", kind: "deadline", label: "Last day to drop in e-Campus (late drop form required after this date)" },
+  { date: "2027-03-17", term: "Spring 2027", kind: "term", label: "Mid-semester; last day to change from Pass/Fail option" },
+  { date: "2027-03-22", end: "2027-03-28", term: "Spring 2027", kind: "holiday", label: "Spring Break — classes do not meet" },
+  { date: "2027-05-03", term: "Spring 2027", kind: "term", label: "Spring last day of classes" },
+  { date: "2027-05-21", end: "2027-05-23", term: "Spring 2027", kind: "grad", label: "Commencement ceremonies" },
+
+  // Graduation / ITG deadlines (College of Arts & Sciences — verify current form)
+  { date: "2027-02-01", term: "Graduation", kind: "grad", label: "Intent to Graduate deadline for August graduates (verify current form)" },
+  { date: "2027-03-01", term: "Graduation", kind: "grad", label: "Intent to Graduate deadline for December graduates (verify current form)" },
+  { date: "2026-10-01", term: "Graduation", kind: "grad", label: "Intent to Graduate deadline for May graduates (verify current form)" }
+];
+
+/* Staggered class-standing registration windows for spring are set by
+   Enrollment Services close to the term and are NOT yet published on the
+   official 2026-27 calendar page. Shown as TBA so no one invents a date. */
+const REG_WINDOWS_NOTE = [
+  "Early registration (Combat Veterans / DAI, then Honors / NCAA / Club Sports)",
+  "Seniors (90+ credits) begin",
+  "Juniors (60–89 credits) begin",
+  "Sophomores (30–59 credits) begin",
+  "Freshmen (0–29 credits) begin"
+];
+
 /* ---------- Current 2026-2027 program worksheets (PDF) ----------
    These live in worksheets/2026-2027/ inside the app so they travel
    with the deployed site. Match the worksheet to the student's

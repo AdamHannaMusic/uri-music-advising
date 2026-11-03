@@ -91,6 +91,98 @@ body {
   font-weight: 600;
 }
 
+/* Banner */
+.banner {
+  background: linear-gradient(90deg, #7a5c12, var(--gold));
+  color: #241a00;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  position: sticky;
+  top: 61px;
+  z-index: 38;
+}
+.banner-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 18px;
+  font-size: 14px;
+}
+.banner-icon { font-size: 17px; flex-shrink: 0; }
+.banner-text { flex: 1; line-height: 1.4; }
+.banner-text strong { font-weight: 700; }
+.banner-link {
+  color: #241a00;
+  font-weight: 700;
+  text-decoration: underline;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.banner-close {
+  background: rgba(0,0,0,.12);
+  border: none;
+  color: #241a00;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.banner-close:hover { background: rgba(0,0,0,.22); }
+
+/* Calendar */
+.cal-group { margin-bottom: 6px; }
+.cal-item {
+  display: flex;
+  gap: 14px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  align-items: flex-start;
+}
+.cal-item:last-child { border-bottom: none; }
+.cal-item.past { opacity: .5; }
+.cal-item.next { background: var(--warn-soft); }
+.cal-date {
+  flex-shrink: 0;
+  width: 128px;
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 13.5px;
+}
+.cal-label { flex: 1; font-size: 14px; }
+.cal-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.cal-tag.reg { background: #e3effb; color: #0a66c2; }
+.cal-tag.deadline { background: #fde8e8; color: #c23b3b; }
+.cal-tag.grad { background: var(--good-soft); color: var(--good); }
+.cal-tag.holiday { background: #efe7fb; color: #6b43b5; }
+.cal-tag.term { background: #eef1f4; color: var(--muted); }
+.next-flag {
+  display: inline-block;
+  background: var(--warn);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 999px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+@media (max-width: 860px) {
+  .cal-date { width: 100px; font-size: 12.5px; }
+}
+
 /* Layout */
 .layout {
   display: flex;

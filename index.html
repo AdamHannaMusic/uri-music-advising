@@ -25,6 +25,15 @@
     </div>
   </header>
 
+  <div id="banner" class="banner" hidden>
+    <div class="banner-inner">
+      <span class="banner-icon" aria-hidden="true">📅</span>
+      <div class="banner-text" id="bannerText"></div>
+      <a class="banner-link" href="#/calendar">View calendar</a>
+      <button class="banner-close" id="bannerClose" aria-label="Dismiss notice">×</button>
+    </div>
+  </div>
+
   <div class="layout">
     <nav class="sidebar" id="sidebar" aria-label="Main navigation">
       <div class="nav-section">
@@ -38,6 +47,7 @@
       </div>
       <div class="nav-section">
         <p class="nav-label">Reference</p>
+        <a href="#/calendar" class="nav-link" data-route="calendar">Academic calendar</a>
         <a href="#/reference" class="nav-link" data-route="reference">Quick reference</a>
         <a href="#/templates" class="nav-link" data-route="templates">Email templates</a>
         <a href="#/files" class="nav-link" data-route="files">Files &amp; forms</a>
