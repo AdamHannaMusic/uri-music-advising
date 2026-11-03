@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URI Music Advising — New Advisor Training</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button id="menuToggle" class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <div class="brand">
+        <span class="brand-mark">URI</span>
+        <div class="brand-text">
+          <strong>Music Advising</strong>
+          <span>New Advisor Training</span>
+        </div>
+      </div>
+      <div class="progress-pill" id="progressPill" title="Your training progress">
+        <span id="progressText">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+      <div class="nav-section">
+        <p class="nav-label">Get started</p>
+        <a href="#/home" class="nav-link" data-route="home">Welcome</a>
+        <a href="#/rules" class="nav-link" data-route="rules">The six rules</a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Training modules</p>
+        <div id="moduleNav"></div>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Reference</p>
+        <a href="#/reference" class="nav-link" data-route="reference">Quick reference</a>
+        <a href="#/templates" class="nav-link" data-route="templates">Email templates</a>
+        <a href="#/files" class="nav-link" data-route="files">Files &amp; forms</a>
+      </div>
+      <div class="nav-section">
+        <button id="resetProgress" class="reset-btn">Reset my progress</button>
+      </div>
+    </nav>
+
+    <main id="main" class="content" tabindex="-1">
+      <div id="view"></div>
+      <footer class="page-footer">
+        <p>Internal training aid for URI Department of Music advisors. The student's controlling catalog,
+        University Manual, academic calendar, approved curriculum, and written office instructions always
+        control over this app. Verify every form against the live official URI pages before use.</p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
