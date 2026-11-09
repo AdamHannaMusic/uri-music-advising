@@ -645,3 +645,17 @@ tbody tr:nth-child(even) { background: #fafbfc; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   h1 { font-size: 25px; }
 }
+
+/* Download-as-PDF link in the sidebar */
+.pdf-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--blue-soft);
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  border: 1px solid var(--line);
+}
+.pdf-link:hover, .pdf-link:focus { background: var(--gold); }

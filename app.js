@@ -93,6 +93,8 @@ function viewHome() {
     then keep the reference tables and email templates handy during real advising. Everything here is grounded in the
     department's Advising Procedures and Training Manual.</p>
 
+    <p><a class="btn" href="URI-Music-Advising-Training.pdf" download>⬇ Download this training as a PDF</a></p>
+
     <div class="card">
       <strong>Your progress</strong>
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
