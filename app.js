@@ -80,7 +80,7 @@ function viewHome() {
   const tiles = [
     ["#/rules", "📐", "The six rules", "The core discipline behind every safe advising decision."],
     ["#/module/m1", "🎓", "Start the training", `7 short modules with a quick check after each. You're ${pct}% through.`],
-    ["#/degrees", "🎼", "Degree paths", "All 11 programs, their rules and worksheets, plus the course planner."],
+    ["#/degrees", "🎼", "Degree paths", "All 11 programs, their rules and worksheets."],
     ["#/calendar", "📅", "Academic calendar", "Registration, drop/add, and graduation deadlines for 2026–2027."],
     ["#/reference", "📋", "Quick reference", "Forms routing, portfolios, curriculum snapshot, approved courses."],
     ["#/templates", "✉️", "Email templates", "All 56 Gmail templates (T01–T56), searchable and copy-ready."],
@@ -435,7 +435,6 @@ function viewDegrees() {
         <div class="degree-links">
           ${wsHref ? `<a class="primary" href="${wsHref}" target="_blank" rel="noopener">2026–2027 worksheet (PDF) ↗</a>` : ""}
           <a href="${d.catalog}" target="_blank" rel="noopener">Official URI requirements ↗</a>
-          <a href="${PLANNER_URL}" target="_blank" rel="noopener">Build a plan in Maestro Rhody ↗</a>
         </div>
       </div>
     </div>`;
@@ -447,16 +446,6 @@ function viewDegrees() {
     <p class="lead">Music degrees are complex, and the requirements differ sharply across the 11 undergraduate paths.
     Use this as orientation — then open each program's current worksheet and the official URI requirements for the
     real audit. Always match the student's <strong>controlling requirement term</strong>, not automatically the newest sheet.</p>
-
-    <div class="planner-cta">
-      <span class="cta-icon" aria-hidden="true">🎼</span>
-      <div class="cta-body">
-        <h3>Maestro Rhody — the interactive course planner</h3>
-        <p>Pick a degree/option and it pre-fills a suggested term-by-term plan you can drag, swap, and save. Handles
-        double majors and course offerings. The fastest way to turn these requirements into an actual schedule.</p>
-      </div>
-      <a class="btn" href="${PLANNER_URL}" target="_blank" rel="noopener">Open the planner ↗</a>
-    </div>
 
     ${families.map(fam => {
       const group = DEGREE_PATHS.filter(d => d.family === fam);

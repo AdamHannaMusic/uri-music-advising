@@ -104,7 +104,6 @@ parts.push(`
   <ul>${D.MUSIC_MINORS.list.map(m => `<li>${esc(m)}</li>`).join("")}</ul>
   <p><strong>Rules to remember</strong></p>
   <ul>${D.MUSIC_MINORS.notes.map(n => `<li>${esc(n)}</li>`).join("")}</ul>
-  <p class="small">Interactive course planner: ${esc(D.PLANNER_URL)}</p>
 </section>`);
 
 const calTerms = [];
